@@ -1,8 +1,11 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import axios from "axios";
 import Image from "next/image";
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
+import Logo from "./favicon.ico";
 
 interface Image {
   id: string;
@@ -47,21 +50,23 @@ export default function Home() {
   };
   return (
     <main className="text-center">
-      <form onSubmit={handleSubmit}>
-        <input
+      <form
+        onSubmit={handleSubmit}
+        className="flex gap-4 items-center justify-center my-4"
+      >
+        <div className="mr-auto flex items-center">
+          <Image src={Logo} alt="logo" width={35} />
+          <p className="text-orange-400 font-semibold text-2xl">Imagify</p>
+        </div>
+        <Input
           type="text"
-          className="border-1 border-gray-700 px-2 max-sm:mb-4 text-gray-900 border-2 h-10 w-2/4 rounded-xl"
+          className="max-w-sm"
           id="imageSearch"
-          placeholder="Image Name Here"
+          placeholder="Type Image to search..."
           ref={searchData}
         />
 
-        <button
-          type="submit"
-          className="mx-4 bg-gray-400 py-3 px-4 rounded-lg text-white"
-        >
-          Search
-        </button>
+        <Button type="submit">Search</Button>
       </form>
 
       <div className="flex flex-wrap gap-4 my-8 items-center justify-evenly">
@@ -82,16 +87,23 @@ export default function Home() {
           />
         ))}
       </div>
+      {data.length == 0 && (
+        <div>
+          <h1 className="text-orange-400 font-semibold text-2xl">
+            Searched image appear here.
+          </h1>
+        </div>
+      )}
       <div className="flex gap-4 items-center justify-center">
         {pageNumber > 1 && (
-          <button onClick={() => setPageNumber((prev) => prev - 1)}>
+          <Button onClick={() => setPageNumber((prev) => prev - 1)}>
             Previous
-          </button>
+          </Button>
         )}
         {pageNumber < totalPages && (
-          <button onClick={() => setPageNumber((prev) => prev + 1)}>
+          <Button onClick={() => setPageNumber((prev) => prev + 1)}>
             Next
-          </button>
+          </Button>
         )}
       </div>
     </main>
