@@ -13,9 +13,6 @@ interface Image {
   alt_description: string;
 }
 
-const API =
-  "https://api.unsplash.com/search/photos?page=1&query=office&client_id=IKYbVez4_bnLaHQiIah09coKieD5SQTS49K5qy1PoGk";
-
 export default function Home() {
   const searchData = useRef<null | HTMLInputElement>(null);
   const [data, setData] = useState<Image[]>([]);
@@ -27,7 +24,7 @@ export default function Home() {
     if (searchData.current?.value) {
       try {
         const { data } = await axios.get(
-          `https://api.unsplash.com/search/photos?page=${pageNumber}&query=${searchData.current.value}&client_id=IKYbVez4_bnLaHQiIah09coKieD5SQTS49K5qy1PoGk`
+          `https://api.unsplash.com/search/photos?page=${pageNumber}&query=${searchData.current.value}&client_id=${process.env.ACCESS_KEY}`
         );
         setData(data.results);
         setTotalPages(data.total_pages);
