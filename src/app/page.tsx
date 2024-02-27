@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
+import { CircleUser, Loader2, Mail } from "lucide-react";
 import Image from "next/image";
 import { FormEvent, useCallback, useEffect, useRef, useState } from "react";
 import Logo from "./favicon.ico";
@@ -19,16 +20,21 @@ export default function Home() {
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(0);
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
 
   const getImageData = useCallback(async () => {
     if (searchData.current?.value) {
       try {
+        setLoading(true);
         const { data } = await axios.get(
           `https://api.unsplash.com/search/photos?page=${pageNumber}&query=${searchData.current.value}&client_id=${process.env.NEXT_PUBLIC_ACCESS_KEY}`
         );
         setData(data.results);
         setTotalPages(data.total_pages);
         setErrorMessage("");
+        if (data) {
+          setLoading(false);
+        }
       } catch (error) {
         setErrorMessage("Error fetching the images. Try again later.");
         console.log(error);
@@ -38,6 +44,7 @@ export default function Home() {
 
   useEffect(() => {
     getImageData();
+    setLoading(false);
   }, [getImageData, pageNumber]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -84,12 +91,25 @@ export default function Home() {
           />
         ))}
       </div>
+      {loading && (
+        <Loader2 className="animate-spin text-yellow-400 size-24 items-center justify-center w-screen" />
+      )}
 
-      {data.length == 0 && (
+      {data.length == 0 && !loading && (
         <div>
           <h1 className="text-orange-400 font-semibold text-2xl">
             Searched image appear here.
           </h1>
+          <div className="text-orange-700 text-sm mt-4 flex flex-col items-end justify-end">
+            <div>
+              <p className="flex gap-4 items-center my-2">
+                <CircleUser className="size-5" /> Ateeth Bhattarai
+              </p>
+              <p className="flex gap-4 items-center">
+                <Mail className="size-5" /> ateeth.bhattarai02@gmail.com
+              </p>
+            </div>
+          </div>
         </div>
       )}
 
