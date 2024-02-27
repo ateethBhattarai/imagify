@@ -24,7 +24,7 @@ export default function Home() {
     if (searchData.current?.value) {
       try {
         const { data } = await axios.get(
-          `https://api.unsplash.com/search/photos?page=${pageNumber}&query=${searchData.current.value}&client_id=${process.env.ACCESS_KEY}`
+          `https://api.unsplash.com/search/photos?page=${pageNumber}&query=${searchData.current.value}&client_id=${process.env.NEXT_PUBLIC_ACCESS_KEY}`
         );
         setData(data.results);
         setTotalPages(data.total_pages);
