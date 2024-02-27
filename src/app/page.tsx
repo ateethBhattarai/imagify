@@ -52,9 +52,9 @@ export default function Home() {
     <main className="text-center">
       <form
         onSubmit={handleSubmit}
-        className="flex gap-4 items-center justify-center my-4"
+        className="flex flex-wrap gap-4 items-center justify-center my-4"
       >
-        <div className="mr-auto flex items-center">
+        <div className="sm:mr-auto flex items-center">
           <Image src={Logo} alt="logo" width={35} />
           <p className="text-orange-400 font-semibold text-2xl">Imagify</p>
         </div>
@@ -87,6 +87,7 @@ export default function Home() {
           />
         ))}
       </div>
+
       {data.length == 0 && (
         <div>
           <h1 className="text-orange-400 font-semibold text-2xl">
@@ -94,6 +95,7 @@ export default function Home() {
           </h1>
         </div>
       )}
+
       <div className="flex gap-4 items-center justify-center">
         {pageNumber > 1 && (
           <Button onClick={() => setPageNumber((prev) => prev - 1)}>
